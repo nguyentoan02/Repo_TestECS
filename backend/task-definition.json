@@ -1,0 +1,41 @@
+{
+   "family": "flexiblejob-backend-task",
+   "containerDefinitions": [
+      {
+         "name": "express-app",
+         "image": "IMAGE_PLACEHOLDER",
+         "cpu": 0,
+         "portMappings": [
+            {
+               "containerPort": 3200,
+               "hostPort": 3200,
+               "protocol": "tcp",
+               "appProtocol": "http"
+            }
+         ],
+         "essential": true,
+         "secrets": [
+            { "name": "DB_HOST", "valueFrom": "SECRET_ARN:DB_HOST::" },
+            { "name": "DB_PORT", "valueFrom": "SECRET_ARN:DB_PORT::" },
+            { "name": "DB_USER", "valueFrom": "SECRET_ARN:DB_USER::" },
+            { "name": "DB_PASSWORD", "valueFrom": "SECRET_ARN:DB_PASSWORD::" },
+            { "name": "DB_NAME", "valueFrom": "SECRET_ARN:DB_NAME::" },
+            { "name": "PORT", "valueFrom": "SECRET_ARN:PORT::" }
+         ],
+         "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+               "awslogs-group": "/ecs/flexiblejob-backend-task",
+               "awslogs-region": "ap-southeast-1",
+               "awslogs-stream-prefix": "ecs"
+            }
+         }
+      }
+   ],
+   "executionRoleArn": "ROLE_ARN",
+   "taskRoleArn": "ROLE_ARN",
+   "networkMode": "awsvpc",
+   "requiresCompatibilities": ["FARGATE"],
+   "cpu": "512",
+   "memory": "1024"
+}
